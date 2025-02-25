@@ -17,3 +17,5 @@ app.listen(port, () => {
   connectDB();
   console.log(`API listening on port: ${port}`);
 });
+
+module.exports = app;
