@@ -13,8 +13,9 @@ app.use(express.json());
 app.use("/auth", usersRoute);
 app.use("/hotels", hotelsRoute);
 
+connectDB();
+
 app.listen(port, () => {
-  connectDB();
   console.log(`API listening on port: ${port}`);
 });
 
