@@ -6,8 +6,8 @@ const router = Router();
 router.post("/", async (req, res) => {
   const hotel = new Hotel(req.body);
   try {
-    const savedHotel = await hotel.save();
-    res.status(200).json(savedHotel);
+    // const savedHotel = await hotel.save();
+    res.status(200).json("savedHotel");
   } catch (error) {
     res.status(500).json(`Something went wrong.v${error}`);
   }
