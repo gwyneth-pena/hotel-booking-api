@@ -3,7 +3,7 @@ import Hotel from "../models/hotel.model.js";
 
 const router = Router();
 
-router.post("", async (req, res) => {
+router.post("/", async (req, res) => {
   const hotel = new Hotel(req.body);
   try {
     const savedHotel = await hotel.save();
