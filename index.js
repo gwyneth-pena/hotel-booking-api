@@ -8,6 +8,7 @@ dotenv.config();
 const port = process.env.PORT || 5000;
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.use("/auth", usersRoute);
@@ -19,4 +20,5 @@ app.listen(port, () => {
   console.log(`API listening on port: ${port}`);
 });
 
-export default app;
+import { createServer } from "@vercel/node";
+export default createServer(app);
