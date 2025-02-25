@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import connectDB from "./db.js";
 import usersRoute from "./routes/users.route.js";
 import hotelsRoute from "./routes/hotels.route.js";
+import { createServer } from "@vercel/node";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -20,5 +21,4 @@ app.listen(port, () => {
   console.log(`API listening on port: ${port}`);
 });
 
-import { createServer } from "@vercel/node";
 export default createServer(app);
