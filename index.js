@@ -1,9 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./db.js";
-import usersRoute from "./routes/users.route.js";
-import hotelsRoute from "./routes/hotels.route.js";
-import cors from 'cors';
+import hotelsRoutes from "./routes/hotels.route.js";
+import authRoutes from "./routes/auth.route.js";
+import cors from "cors";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -12,8 +12,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/auth", usersRoute);
-app.use("/hotels", hotelsRoute);
+app.use("/auth", authRoutes);
+app.use("/hotels", hotelsRoutes);
 
 connectDB();
 

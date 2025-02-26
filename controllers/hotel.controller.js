@@ -8,9 +8,9 @@ export const getHotels = async (req, res) => {
     } else {
       hotels = await Hotel.find();
     }
-    res.status(200).json(hotels);
+    return res.status(200).json(hotels);
   } catch (error) {
-    res.status(404).json({ message: "Hotel not found." });
+    return res.status(404).json({ message: "Hotel not found." });
   }
 };
 
@@ -25,18 +25,18 @@ export const updateHotel = async (req, res) => {
         new: true,
       }
     );
-    res.status(200).json(hotel);
+    return res.status(200).json(hotel);
   } catch (error) {
-    res.status(404).json({ message: "Hotel not found." });
+    return res.status(404).json({ message: "Hotel not found." });
   }
 };
 
 export const deleteHotel = async (req, res) => {
   try {
-    const hotel = await Hotel.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Hotel has been deleted." });
+    await Hotel.findByIdAndDelete(req.params.id);
+    return res.status(200).json({ message: "Hotel has been deleted." });
   } catch (error) {
-    res.status(404).json({ message: "Hotel not found." });
+    return res.status(404).json({ message: "Hotel not found." });
   }
 };
 
@@ -44,8 +44,8 @@ export const createHotel = async (req, res) => {
   const hotel = new Hotel(req.body);
   try {
     const savedHotel = await hotel.save();
-    res.status(200).json(savedHotel);
+    return res.status(200).json(savedHotel);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    return res.status(404).json({ message: error.message });
   }
 };
