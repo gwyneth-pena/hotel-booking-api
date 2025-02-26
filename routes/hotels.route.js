@@ -8,12 +8,9 @@ import {
 
 const router = Router();
 
-router.get("/:id?", getHotels);
-
 router.post("/", createHotel);
-
+router.get("/:id?", getHotels);
 router.put("/:id", updateHotel);
-
 router.delete("/:id", deleteHotel);
 
 export default router;

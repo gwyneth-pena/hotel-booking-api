@@ -80,6 +80,19 @@
         }
       }
     },
+    "/hotels/": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/hotels/{id?}": {
       "get": {
         "description": "",
@@ -91,19 +104,6 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/hotels/": {
-      "post": {
-        "description": "",
         "responses": {
           "200": {
             "description": "OK"
