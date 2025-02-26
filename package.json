@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index",
-    "dev": "nodemon index"
+    "dev": "nodemon index",
+    "swagger": "node swagger"
   },
   "keywords": [],
   "author": "",
@@ -15,11 +16,18 @@
   "dependencies": {
     "@vercel/node": "^5.1.8",
     "bcrypt": "^5.1.1",
+    "bson": "^6.10.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongodb": "^6.13.1",
     "mongoose": "^8.10.1",
-    "nodemon": "^3.1.9"
+    "mongoose-to-swagger": "^1.5.1",
+    "nodemon": "^3.1.9",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "swagger-autogen": "^2.23.7"
   }
 }
