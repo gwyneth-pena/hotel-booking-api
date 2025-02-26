@@ -13,7 +13,7 @@ router.get("/:id?", async (req, res) => {
     }
     res.status(200).json(hotels);
   } catch (error) {
-    res.status(500).json(`Something went wrong.${error}`);
+    res.status(404).json({ message: "Hotel not found." });
   }
 });
 
@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
     const savedHotel = await hotel.save();
     res.status(200).json(savedHotel);
   } catch (error) {
-    res.status(500).json(`Something went wrong.${error}`);
+    res.status(404).json({ message: error.message });
   }
 });
 
@@ -40,7 +40,7 @@ router.put("/:id", async (req, res) => {
     );
     res.status(200).json(hotel);
   } catch (error) {
-    res.status(500).json(`Something went wrong.${error}`);
+    res.status(404).json({ message: "Hotel not found." });
   }
 });
 
@@ -49,7 +49,7 @@ router.delete("/:id", async (req, res) => {
     const hotel = await Hotel.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "Hotel has been deleted." });
   } catch (error) {
-    res.status(500).json(`Something went wrong.${error}`);
+    res.status(404).json({ message: "Hotel not found." });
   }
 });
 
