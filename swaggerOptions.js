@@ -10,11 +10,19 @@ const swaggerDefinition = {
   components: {
     schemas: swaggerSchemas,
   },
+  servers: [
+    {
+      url: "http://localhost:5000",
+    },
+    {
+      url: "https://hotel-booking-api-alpha.vercel.app",
+    },
+  ],
 };
 
 const options = {
   swaggerDefinition,
-  apis: ["./index.js"]
+  apis: ["./index.js"],
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
