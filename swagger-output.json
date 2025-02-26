@@ -1,15 +1,16 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Hotel Booking API",
+    "title": "Hotel API",
     "version": "1.0.0",
-    "description": ""
+    "description": "API for managing hotels"
   },
-  "host": "localhost:5000",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {},
   "paths": {
     "/auth/signup": {
       "post": {
@@ -154,5 +155,114 @@
         }
       }
     }
-  }
+  },
+  "components": {
+    "schemas": {
+      "user": {
+        "title": "User",
+        "required": [
+          "firstName",
+          "lastName",
+          "username",
+          "password"
+        ],
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "isAdmin": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "userLogin": {
+        "title": "UserLogin",
+        "required": [
+          "username",
+          "password"
+        ],
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "hotel": {
+        "title": "Hotel",
+        "required": [
+          "name",
+          "type",
+          "description",
+          "city",
+          "address",
+          "rating"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "city": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "rooms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isFeatured": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "responses": {},
+  "parameters": {}
 }
