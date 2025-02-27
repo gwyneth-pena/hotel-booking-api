@@ -5,12 +5,14 @@ import {
   getHotels,
   updateHotel,
 } from "../controllers/hotel.controller.js";
+import { verifyAdmin } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.post("/", createHotel);
-router.get("/:id?", getHotels);
-router.put("/:id", updateHotel);
-router.delete("/:id", deleteHotel);
+router.post("/", verifyAdmin, createHotel);
+router.get("/", getHotels);
+router.get("/:id", getHotels);
+router.patch("/:id", verifyAdmin, updateHotel);
+router.delete("/:id", verifyAdmin, deleteHotel);
 
 export default router;

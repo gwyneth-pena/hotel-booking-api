@@ -3,9 +3,9 @@ import swaggerSchemas from "./swaggerSchemas.js";
 
 const swaggerDefinition = {
   info: {
-    title: "Hotel API",
+    title: "Hotel Booking API",
     version: "1.0.0",
-    description: "API for managing hotels",
+    description: "API for booking hotel rooms.",
   },
   components: {
     schemas: swaggerSchemas,

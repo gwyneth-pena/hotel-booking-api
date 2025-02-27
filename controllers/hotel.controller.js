@@ -19,7 +19,17 @@ export const updateHotel = async (req, res) => {
     const hotel = await Hotel.findByIdAndUpdate(
       req.params.id,
       {
-        $set: req.body,
+        $set: {
+          name: req.body.name,
+          type: req.body.type,
+          description: req.body.description,
+          photos: req.body.photos,
+          city: req.body.city,
+          address: req.body.address,
+          rating: req.body.rating,
+          rooms: req.body.rooms,
+          isFeatured: req.body.isFeatured,
+        },
       },
       {
         new: true,
@@ -41,8 +51,18 @@ export const deleteHotel = async (req, res) => {
 };
 
 export const createHotel = async (req, res) => {
-  const hotel = new Hotel(req.body);
   try {
+    const hotel = new Hotel({
+      name: req.body.name,
+      type: req.body.type,
+      description: req.body.description,
+      photos: req.body.photos,
+      city: req.body.city,
+      address: req.body.address,
+      rating: req.body.rating,
+      rooms: req.body.rooms,
+      isFeatured: req.body.isFeatured,
+    });
     const savedHotel = await hotel.save();
     return res.status(200).json(savedHotel);
   } catch (error) {
