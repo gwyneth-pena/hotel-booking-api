@@ -42,4 +42,6 @@ const HotelSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+HotelSchema.index({ rooms: 1 });
+
 export const Hotel = mongoose.model("Hotel", HotelSchema);

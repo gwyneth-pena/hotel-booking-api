@@ -4,6 +4,7 @@ import connectDB from "./db.js";
 import hotelsRoutes from "./routes/hotels.route.js";
 import authRoutes from "./routes/auth.route.js";
 import usersRoutes from "./routes/users.route.js";
+import roomsRoutes from './routes/room.route.js';
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerFile from './swagger-output.json' with { type: "json" };
@@ -20,6 +21,7 @@ app.use(express.json());
 
 app.use("/auth", authRoutes);
 app.use("/hotels", hotelsRoutes);
+app.use("/rooms", roomsRoutes)
 app.use("/users", usersRoutes);
 app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerFile, {
   
