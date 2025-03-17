@@ -6,7 +6,25 @@ export const getHotels = async (req, res) => {
     if (req.params.id) {
       hotels = await Hotel.findById(req.params.id);
     } else {
-      hotels = await Hotel.find();
+      const valuesQuery = req.query.values;
+      const fieldQuery = req.query.field;
+      const countOnly = req.query.countOnly?.trim();
+      if (valuesQuery && fieldQuery) {
+        const values = valuesQuery
+          .split(",")
+          .map((val) => new RegExp(val.trim(), "i"));
+
+        if (countOnly?.toLowerCase() !== "true" && countOnly?.toLowerCase() !== "") {
+          hotels = await Hotel.find({ [fieldQuery]: { $in: values } });
+        } else {
+          hotels = await Hotel.countDocuments({
+            [fieldQuery]: { $in: values },
+          });
+          hotels = { count: hotels };
+        }
+      } else {
+        hotels = await Hotel.find();
+      }
     }
     return res.status(200).json(hotels);
   } catch (error) {

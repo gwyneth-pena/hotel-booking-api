@@ -136,6 +136,29 @@
       },
       "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "values",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "countOnly",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -154,6 +177,27 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "values",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "field",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "countOnly",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -285,7 +329,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "title": {
+                  "name": {
                     "example": "any"
                   },
                   "description": {
@@ -374,7 +418,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "title": {
+                  "name": {
                     "example": "any"
                   },
                   "description": {
