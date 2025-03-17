@@ -10,6 +10,7 @@ const router = Router();
 
 router.get("/my-data/:id", verifyUser, getUser);
 router.patch("/my-data/:id", verifyUser, getUser);
+router.get("/", verifyAdmin, getUsers);
 router.get("/:id", verifyAdmin, getUsers);
 router.delete("/:id", verifyAdmin, deleteUser);
 
