@@ -14,20 +14,33 @@ export const getHotels = async (req, res) => {
           .split(",")
           .map((val) => new RegExp(val.trim(), "i"));
 
-        if (countOnly?.toLowerCase() !== "true" && countOnly?.toLowerCase() !== "") {
-          hotels = await Hotel.find({ [fieldQuery]: { $in: values } });
-        } else {
-          hotels = await Hotel.countDocuments({
-            [fieldQuery]: { $in: values },
-          });
-          hotels = { count: hotels };
+        let query = [
+          {
+            $match: {
+              [fieldQuery]: { $in: values },
+            },
+          },
+          {
+            $group: {
+              _id: `$${fieldQuery}`,
+              count: { $sum: 1 },
+            },
+          },
+        ];
+
+        if (
+          countOnly?.toLowerCase() !== "true"
+        ) {
+          query[1].$group.documents = { $push: "$$ROOT" };
         }
+        hotels = await Hotel.aggregate(query);
       } else {
         hotels = await Hotel.find();
       }
     }
     return res.status(200).json(hotels);
   } catch (error) {
+    console.log(error);
     return res.status(404).json({ message: "Hotel not found." });
   }
 };
