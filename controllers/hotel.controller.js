@@ -33,7 +33,7 @@ export const getHotels = async (req, res) => {
           },
         ];
 
-        if (withRoomInfo?.toLowerCase() !== "true") {
+        if (withRoomInfo?.toLowerCase() == "true") {
           query.push({
             $lookup: {
               from: "rooms",
