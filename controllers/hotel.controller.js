@@ -10,9 +10,13 @@ export const getHotels = async (req, res) => {
       const fieldQuery = req.query.field;
       const countOnly = req.query.countOnly?.trim();
       if (valuesQuery && fieldQuery) {
-        const values = valuesQuery
-          .split(",")
-          .map((val) => new RegExp(val.trim(), "i"));
+        const values = valuesQuery.split(",").map((val) => {
+          const trimmedVal = val.trim().toLowerCase();
+          if (trimmedVal === "true") return true;
+          if (trimmedVal === "false") return false;
+          if (!isNaN(trimmedVal)) return Number(trimmedVal);
+          return new RegExp(val.trim(), "i");
+        });
 
         let query = [
           {
@@ -28,9 +32,7 @@ export const getHotels = async (req, res) => {
           },
         ];
 
-        if (
-          countOnly?.toLowerCase() !== "true"
-        ) {
+        if (countOnly?.toLowerCase() !== "true") {
           query[1].$group.documents = { $push: "$$ROOT" };
         }
         hotels = await Hotel.aggregate(query);
