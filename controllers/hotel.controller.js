@@ -9,6 +9,7 @@ export const getHotels = async (req, res) => {
       const valuesQuery = req.query.values;
       const fieldQuery = req.query.field;
       const countOnly = req.query.countOnly?.trim();
+      const withRoomInfo = req.query.withRoomInfo?.trim();
       if (valuesQuery && fieldQuery) {
         const values = valuesQuery.split(",").map((val) => {
           const trimmedVal = val.trim().toLowerCase();
@@ -31,6 +32,17 @@ export const getHotels = async (req, res) => {
             },
           },
         ];
+
+        if (withRoomInfo?.toLowerCase() !== "true") {
+          query.push({
+            $lookup: {
+              from: "rooms",
+              localField: "rooms",
+              foreignField: "id",
+              as: "roomDetails",
+            },
+          });
+        }
 
         if (countOnly?.toLowerCase() !== "true") {
           query[1].$group.documents = { $push: "$$ROOT" };

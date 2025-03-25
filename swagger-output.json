@@ -157,6 +157,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "withRoomInfo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -197,6 +204,13 @@
           },
           {
             "name": "countOnly",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "withRoomInfo",
             "in": "query",
             "schema": {
               "type": "string"
