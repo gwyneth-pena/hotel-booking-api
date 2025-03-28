@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import {mongoose, Schema} from "mongoose";
 
 const HotelSchema = new mongoose.Schema(
   {
@@ -31,9 +31,7 @@ const HotelSchema = new mongoose.Schema(
       min: 0,
       max: 5,
     },
-    rooms: {
-      type: [String],
-    },
+    rooms: { type: Schema.Types.ObjectId, ref: "Room" },
     isFeatured: {
       type: Boolean,
       default: false,

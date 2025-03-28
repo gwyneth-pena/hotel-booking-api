@@ -1,4 +1,5 @@
 import { Hotel } from "../models/hotel.model.js";
+import { generateDateList } from "../utls/dateUtils.js";
 
 export const getHotels = async (req, res) => {
   try {
@@ -10,6 +11,12 @@ export const getHotels = async (req, res) => {
       const fieldQuery = req.query.field;
       const countOnly = req.query.countOnly?.trim();
       const withRoomInfo = req.query.withRoomInfo?.trim();
+
+      const checkInDate =
+        req.query.checkInDate?.trim() || new Date().setUTCHours(0, 0, 0, 0);
+      const checkOutDate =
+        req.query.checkOutDate?.trim() || new Date().setUTCHours(0, 0, 0, 0);
+
       if (valuesQuery && fieldQuery) {
         const values = valuesQuery.split(",").map((val) => {
           const trimmedVal = val.trim().toLowerCase();
@@ -25,27 +32,73 @@ export const getHotels = async (req, res) => {
               [fieldQuery]: { $in: values },
             },
           },
-          {
-            $group: {
-              _id: `$${fieldQuery}`,
-              count: { $sum: 1 },
-            },
-          },
         ];
 
         if (withRoomInfo?.toLowerCase() == "true") {
-          query.push({
-            $lookup: {
-              from: "rooms",
-              localField: "rooms",
-              foreignField: "id",
-              as: "roomDetails",
+          const dates = generateDateList(checkInDate, checkOutDate);
+
+          query.push(
+            {
+              $lookup: {
+                from: "rooms",
+                localField: "rooms",
+                foreignField: "_id",
+                as: "roomDetails",
+              },
             },
-          });
+            {
+              $addFields: {
+                availableRooms: {
+                  $filter: {
+                    input: "$roomDetails",
+                    as: "room",
+                    cond: {
+                      $gt: [
+                        {
+                          $size: {
+                            $filter: {
+                              input: "$$room.roomNumbers",
+                              as: "roomNum",
+                              cond: {
+                                $eq: [
+                                  {
+                                    $size: {
+                                      $setIntersection: [
+                                        dates,
+                                        "$$roomNum.unavailableDates",
+                                      ],
+                                    },
+                                  },
+                                  0,
+                                ],
+                              },
+                            },
+                          },
+                        },
+                        0,
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+            {
+              $addFields: {
+                availableMaxPax: { $max: "$availableRooms.maxPeople" },
+              },
+            }
+          );
         }
 
+        query.push({
+          $group: {
+            _id: `$${fieldQuery}`,
+            count: { $sum: 1 },
+          },
+        });
+
         if (countOnly?.toLowerCase() !== "true") {
-          query[1].$group.documents = { $push: "$$ROOT" };
+          query[query.length - 1].$group.documents = { $push: "$$ROOT" };
         }
         hotels = await Hotel.aggregate(query);
       } else {
