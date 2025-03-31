@@ -11,6 +11,7 @@ export const getHotels = async (req, res) => {
       const fieldQuery = req.query.field;
       const countOnly = req.query.countOnly?.trim();
       const withRoomInfo = req.query.withRoomInfo?.trim();
+      const minPax = req.query.minPax || 1;
 
       const checkInDate =
         req.query.checkInDate?.trim() || new Date().setUTCHours(0, 0, 0, 0);
@@ -84,8 +85,17 @@ export const getHotels = async (req, res) => {
             },
             {
               $addFields: {
-                availableMaxPax: { $max: "$availableRooms.maxPeople" },
+                availableMaxPax: {
+                  $reduce: {
+                    input: "$availableRooms",
+                    initialValue: 0,
+                    in: { $add: ["$$value", "$$this.maxPeople"] },
+                  },
+                },
               },
+            },
+            {
+              $match: { availableMaxPax: { $gte: parseInt(minPax) } },
             }
           );
         }
@@ -107,7 +117,7 @@ export const getHotels = async (req, res) => {
     }
     return res.status(200).json(hotels);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(404).json({ message: "Hotel not found." });
   }
 };

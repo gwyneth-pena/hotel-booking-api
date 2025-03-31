@@ -166,6 +166,13 @@
             }
           },
           {
+            "name": "minPax",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "checkInDate",
             "in": "query",
             "schema": {
@@ -225,6 +232,13 @@
           },
           {
             "name": "withRoomInfo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "minPax",
             "in": "query",
             "schema": {
               "type": "string"
