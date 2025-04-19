@@ -13,11 +13,12 @@ export const getHotels = async (req, res) => {
       const withRoomInfo = req.query.withRoomInfo?.trim();
       const minPax = req.query.minPax || 1;
 
-      const checkInDate =
-        req.query.checkInDate?.trim() || new Date().setUTCHours(0, 0, 0, 0);
-      const checkOutDate =
-        req.query.checkOutDate?.trim() || new Date().setUTCHours(0, 0, 0, 0);
-
+      const checkInDate = req.query.checkInDate
+        ? new Date(req.query.checkInDate)
+        : new Date(new Date().setUTCHours(0, 0, 0, 0));
+      const checkOutDate = req.query.checkOutDate
+        ? new Date(req.query.checkOutDate)
+        : new Date(new Date().setUTCHours(0, 0, 0, 0));
       if (valuesQuery && fieldQuery) {
         const values = valuesQuery.split(",").map((val) => {
           const trimmedVal = val.trim().toLowerCase();
