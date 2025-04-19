@@ -15,7 +15,9 @@ const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger
 const port = process.env.PORT || 5000;
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin:['https://hotel-booking-delta-two.vercel.app']
+}));
 app.use(cookieParser());
 app.use(express.json());
 
