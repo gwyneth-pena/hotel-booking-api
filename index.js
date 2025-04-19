@@ -11,7 +11,7 @@ import swaggerFile from './swagger-output.json' with { type: "json" };
 import cookieParser from "cookie-parser";
 
 dotenv.config();
-const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css"
+const SWAGGER_CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css"
 const port = process.env.PORT || 5000;
 const app = express();
 
@@ -43,7 +43,7 @@ app.use("/", swaggerUi.serve, swaggerUi.setup(swaggerFile, {
   
     customCss:
         '.swagger-ui .opblock .opblock-summary-path-description-wrapper { align-items: center; display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0 10px; width: 100%; }',
-    customCssUrl: CSS_URL,
+    customCssUrl: SWAGGER_CSS_URL,
 })
 );
 
