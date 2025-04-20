@@ -1,5 +1,6 @@
 import { Hotel } from "../models/hotel.model.js";
 import { generateDateList } from "../utls/dateUtils.js";
+import mongoose from "mongoose";
 
 export const getHotels = async (req, res) => {
   try {
@@ -22,6 +23,9 @@ export const getHotels = async (req, res) => {
       if (valuesQuery && fieldQuery) {
         const values = valuesQuery.split(",").map((val) => {
           const trimmedVal = val.trim().toLowerCase();
+          if (fieldQuery === "_id") {
+            return new mongoose.Types.ObjectId(trimmedVal);
+          }
           if (trimmedVal === "true") return true;
           if (trimmedVal === "false") return false;
           if (!isNaN(trimmedVal)) return Number(trimmedVal);
