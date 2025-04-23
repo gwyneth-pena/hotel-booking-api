@@ -53,7 +53,14 @@ export const login = async (req, res) => {
         httpOnly: true,
       })
       .status(200)
-      .json({ message: "Login successful." });
+      .json({
+        message: "Login successful.",
+        data: {
+          token: token,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+      });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
