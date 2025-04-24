@@ -13,7 +13,7 @@ export const verifyAdmin = async (req, res, next) => {
     if (!user.isAdmin) {
       return res.status(401).json({ message: "Unauthorized Access" });
     }
-    next();
+    return next();
   } catch (error) {
     return res.status(401).json({ message: "Unauthorized Access" });
   }
@@ -26,7 +26,7 @@ export const verifyUser = async (req, res, next) => {
     const data = jwt.verify(token, process.env.SECRET_KEY);
     const user = await User.findById(data.id);
     if (!user.isAdmin) {
-      next();
+      return next();
     }
     return res.status(401).json({ message: "Unauthorized Access" });
   } catch (error) {
