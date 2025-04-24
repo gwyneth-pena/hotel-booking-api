@@ -81,6 +81,16 @@
         }
       }
     },
+    "/auth/logout": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/hotels/": {
       "post": {
         "description": "",
