@@ -48,10 +48,15 @@ export const login = async (req, res) => {
         expiresIn: "2h",
       }
     );
+
+    const cookieExpiration = 2 * 60 * 60 * 1000;
+
     return res
       .cookie("accessToken", token, {
         httpOnly: true,
         sameSite: "None",
+        secure: true,
+        maxAge: cookieExpiration,
       })
       .status(200)
       .json({
