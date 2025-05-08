@@ -842,17 +842,12 @@
         "properties": {
           "title": {
             "type": "string",
-            "example": "Hotel"
+            "example": "UserBooking"
           },
           "required": {
             "type": "array",
             "example": [
-              "name",
-              "type",
-              "description",
-              "city",
-              "address",
-              "rating"
+              "user"
             ],
             "items": {
               "type": "string"
@@ -861,34 +856,16 @@
           "properties": {
             "type": "object",
             "properties": {
-              "name": {
+              "user": {
                 "type": "object",
                 "properties": {
                   "type": {
                     "type": "string",
-                    "example": "string"
+                    "example": "schemaobjectid"
                   }
                 }
               },
-              "type": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "example": "string"
-                  }
-                }
-              },
-              "description": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "example": "string"
-                  }
-                }
-              },
-              "photos": {
+              "bookedRooms": {
                 "type": "object",
                 "properties": {
                   "type": {
@@ -900,89 +877,151 @@
                     "properties": {
                       "type": {
                         "type": "string",
-                        "example": "string"
+                        "example": "object"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "properties": {
+                          "hotel": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "schemaobjectid"
+                              }
+                            }
+                          },
+                          "rooms": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "array"
+                              },
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string",
+                                    "example": "object"
+                                  },
+                                  "properties": {
+                                    "type": "object",
+                                    "properties": {
+                                      "room": {
+                                        "type": "object",
+                                        "properties": {
+                                          "type": {
+                                            "type": "string",
+                                            "example": "schemaobjectid"
+                                          }
+                                        }
+                                      },
+                                      "roomNumbers": {
+                                        "type": "object",
+                                        "properties": {
+                                          "type": {
+                                            "type": "string",
+                                            "example": "array"
+                                          },
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "type": {
+                                                "type": "string",
+                                                "example": "number"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "required": {
+                                    "type": "array",
+                                    "example": [
+                                      "room",
+                                      "roomNumbers"
+                                    ],
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "checkInDate": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              },
+                              "format": {
+                                "type": "string",
+                                "example": "date-time"
+                              }
+                            }
+                          },
+                          "checkOutDate": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              },
+                              "format": {
+                                "type": "string",
+                                "example": "date-time"
+                              }
+                            }
+                          },
+                          "totalPrice": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "schemadecimal128"
+                              }
+                            }
+                          },
+                          "status": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              },
+                              "enum": {
+                                "type": "array",
+                                "example": [
+                                  "pending",
+                                  "confirmed",
+                                  "cancelled"
+                                ],
+                                "items": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": {
+                        "type": "array",
+                        "example": [
+                          "hotel",
+                          "checkInDate",
+                          "checkOutDate",
+                          "totalPrice",
+                          "status"
+                        ],
+                        "items": {
+                          "type": "string"
+                        }
                       }
                     }
-                  }
-                }
-              },
-              "city": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "example": "string"
-                  }
-                }
-              },
-              "address": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "example": "string"
-                  }
-                }
-              },
-              "rating": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "example": "number"
-                  }
-                }
-              },
-              "rooms": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "example": "array"
-                  },
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "example": "schemaobjectid"
-                      }
-                    }
-                  }
-                }
-              },
-              "isFeatured": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "example": "boolean"
-                  }
-                }
-              },
-              "createdAt": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "example": "string"
-                  },
-                  "format": {
-                    "type": "string",
-                    "example": "date-time"
-                  }
-                }
-              },
-              "updatedAt": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "example": "string"
-                  },
-                  "format": {
-                    "type": "string",
-                    "example": "date-time"
                   }
                 }
               }
