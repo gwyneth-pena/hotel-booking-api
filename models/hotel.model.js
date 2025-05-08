@@ -31,7 +31,7 @@ const HotelSchema = new mongoose.Schema(
       min: 0,
       max: 5,
     },
-    rooms: { type: Schema.Types.ObjectId, ref: "Room" },
+    rooms: [{ type: Schema.Types.ObjectId, ref: "Room" }],
     isFeatured: {
       type: Boolean,
       default: false,
