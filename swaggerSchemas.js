@@ -10,5 +10,5 @@ export default {
     omitFields: ["_id"],
   }),
   hotel: m2s(Hotel, { omitMongooseInternals: true, omitFields: ["_id"] }),
-  hotel: m2s(UserBooking, { omitMongooseInternals: true, omitFields: ["_id"] }),
+  userBooking: m2s(UserBooking, { omitMongooseInternals: true, omitFields: ["_id"] }),
 };
