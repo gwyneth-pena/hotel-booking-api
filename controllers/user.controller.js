@@ -88,7 +88,8 @@ export const getUser = async (req, res) => {
     return res.status(200).json({
       username: user?.username,
       firstName: user?.firstName,
-      lastName: user.lastName,
+      lastName: user?.lastName,
+      id: req.params.id
     });
   } catch (error) {
     return res.status(404).json({ message: "User not found." });

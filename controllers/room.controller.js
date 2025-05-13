@@ -35,6 +35,31 @@ export const getRooms = async (req, res) => {
     let rooms = {};
     if (req.params.id) {
       rooms = await Room.findById(req.params.id);
+
+      const queryCheckIn = req.query.checkInDate;
+      const queryCheckOut = req.query.checkOutDate;
+
+      if (queryCheckIn && queryCheckOut) {
+        const checkInDate = queryCheckIn
+          ? new Date(queryCheckIn)
+          : new Date(new Date().setUTCHours(0, 0, 0, 0));
+        const checkOutDate = queryCheckOut
+          ? new Date(queryCheckOut)
+          : new Date(new Date().setUTCHours(0, 0, 0, 0));
+
+        const availableRoomNumbers = rooms.roomNumbers.filter((roomNumber) => {
+          return roomNumber.unavailableDates.every((date) => {
+            const d = new Date(date);
+            return d < checkInDate || d >= checkOutDate;
+          });
+        });
+        
+        rooms = {
+          ...rooms.toObject(),
+          roomNumbers: availableRoomNumbers,
+        };
+
+      }
     } else {
       rooms = await Room.find();
     }
