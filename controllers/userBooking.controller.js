@@ -1,6 +1,18 @@
 import { Room } from "../models/room.model.js";
 import { UserBooking } from "../models/userBooking.model.js";
 import { generateDateList } from "../utls/dateUtils.js";
+import { sendEmail } from "../utls/Email.js";
+
+const sendBookingEmail = (booking) => {
+  const to = booking.user.username;
+  const name = booking.user.firstName + " " + booking.user.lastName;
+  const hotelName = booking.bookedRooms[0].hotel.name;
+  const checkIn = booking.bookedRooms[0].checkInDate;
+  const checkOut = booking.bookedRooms[0].checkOutDate;
+  const rooms = booking.bookedRooms[0].rooms;
+  const totalPrice = booking.bookedRooms[0].totalPrice;
+  sendEmail(to, name, hotelName, checkIn, checkOut, rooms, totalPrice);
+};
 
 export const createBooking = async (req, res) => {
   try {
@@ -31,7 +43,47 @@ export const createBooking = async (req, res) => {
 
     await Promise.all(updatePromises);
 
-    return res.status(200).json(savedBooking);
+    const populatedSavedBooking = await UserBooking.findById(savedBooking._id)
+      .populate("user")
+      .populate("bookedRooms.hotel")
+      .populate("bookedRooms.rooms.room");
+
+    sendBookingEmail(populatedSavedBooking);
+    return res.status(200).json(populatedSavedBooking);
+  } catch (error) {
+    return res.status(404).json({ message: error.message });
+  }
+};
+
+export const getUserBookings = async (req, res) => {
+  try {
+    const userId = req.query.userId;
+
+    let fromDate = req.query.fromDate;
+    let toDate = req.query.toDate;
+
+    let params = {
+      user: userId,
+    };
+
+    if (fromDate && toDate) {
+      fromDate = new Date(fromDate);
+      toDate = new Date(toDate);
+      params = {
+        ...params,
+        bookedRooms: {
+          $elemMatch: {
+            checkInDate: { $gte: fromDate, $lte: toDate },
+          },
+        },
+      };
+    }
+
+    const bookings = await UserBooking.find(params)
+      .populate("bookedRooms.hotel")
+      .populate("bookedRooms.rooms.room");
+
+    return res.status(200).json(bookings);
   } catch (error) {
     return res.status(404).json({ message: error.message });
   }

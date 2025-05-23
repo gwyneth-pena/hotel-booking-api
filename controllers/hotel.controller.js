@@ -90,6 +90,47 @@ export const getHotels = async (req, res) => {
             },
             {
               $addFields: {
+                availableRooms: {
+                  $map: {
+                    input: "$availableRooms",
+                    as: "room",
+                    in: {
+                      $mergeObjects: [
+                        "$$room",
+                        {
+                          roomNumbers: {
+                            $filter: {
+                              input: "$$room.roomNumbers",
+                              as: "roomNum",
+                              cond: {
+                                $eq: [
+                                  {
+                                    $size: {
+                                      $setIntersection: [
+                                        dates,
+                                        "$$roomNum.unavailableDates",
+                                      ],
+                                    },
+                                  },
+                                  0,
+                                ],
+                              },
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+            {
+              $match: {
+                availableRooms: { $ne: [] },
+              },
+            },
+            {
+              $addFields: {
                 availableMaxPax: {
                   $reduce: {
                     input: "$availableRooms",
