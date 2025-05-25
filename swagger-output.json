@@ -22,8 +22,8 @@
           "200": {
             "description": "OK"
           },
-          "404": {
-            "description": "Not Found"
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "requestBody": {
@@ -42,6 +42,9 @@
                     "example": "any"
                   },
                   "password": {
+                    "example": "any"
+                  },
+                  "mobileNumber": {
                     "example": "any"
                   }
                 }

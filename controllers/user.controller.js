@@ -12,16 +12,22 @@ export const signup = async (req, res) => {
       lastName: req.body.lastName,
       firstName: req.body.firstName,
       password: req.body.password,
+      mobileNumber: req.body.mobileNumber,
     });
 
     await user.validate();
+    const isExitingUser = await User.findOne({ username: req.body.username });
+
+    if (isExitingUser) {
+      return res.status(500).json({ message: "User already exists." });
+    }
 
     const password = await bcrypt.hash(req.body.password, 12);
     user.password = password;
     user.save();
     return res.status(200).json({ message: "User already created." });
   } catch (error) {
-    return res.status(404).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -89,7 +95,7 @@ export const getUser = async (req, res) => {
       username: user?.username,
       firstName: user?.firstName,
       lastName: user?.lastName,
-      id: req.params.id
+      id: req.params.id,
     });
   } catch (error) {
     return res.status(404).json({ message: "User not found." });
