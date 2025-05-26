@@ -27,7 +27,7 @@
         <p>Rooms: </p>
         
         {{#each rooms}}
-          <p>{{getRoomName this}}</p>
+          <p>{{getRoomName this}} - ({{getNumberOfRooms this}} room/s)</p>
         {{/each}}
 
         <div class="details">

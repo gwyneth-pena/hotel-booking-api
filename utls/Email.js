@@ -30,6 +30,9 @@ transporter.use(
         getRoomName: function (roomWrapper) {
           return roomWrapper && roomWrapper.room ? roomWrapper.room.name : "";
         },
+        getNumberOfRooms: function (roomWrapper) {
+          return roomWrapper && roomWrapper.room ? roomWrapper.roomNumbers.length : "";
+        },
         json: function (context) {
           return JSON.stringify(context, null, 2);
         },

@@ -96,6 +96,7 @@ export const getUser = async (req, res) => {
       firstName: user?.firstName,
       lastName: user?.lastName,
       id: req.params.id,
+      isAdmin: user?.isAdmin
     });
   } catch (error) {
     return res.status(404).json({ message: "User not found." });
