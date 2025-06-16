@@ -48,26 +48,15 @@ transporter.use(
 
 export const sendEmail = async (
   to,
-  name,
-  hotelName,
-  checkIn,
-  checkOut,
-  rooms,
-  totalPrice
+  subject,
+  templateName,
+  data
 ) => {
   transporter.sendMail({
     from: emailUser,
     to: to,
-    subject: "Booking Confirmation",
-    template: "bookingConfirmation",
-    context: {
-      name: name,
-      hotelName: hotelName,
-      checkIn: checkIn,
-      checkOut: checkOut,
-      rooms: rooms,
-      totalPrice: totalPrice,
-      year: new Date().getFullYear(),
-    },
+    subject: subject,
+    template: templateName,
+    context: data,
   });
 };

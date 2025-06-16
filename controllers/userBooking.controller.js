@@ -11,7 +11,18 @@ const sendBookingEmail = (booking) => {
   const checkOut = booking.bookedRooms[0].checkOutDate;
   const rooms = booking.bookedRooms[0].rooms;
   const totalPrice = booking.bookedRooms[0].totalPrice;
-  sendEmail(to, name, hotelName, checkIn, checkOut, rooms, totalPrice);
+
+  const data = {
+    name,
+    hotelName,
+    checkIn,
+    checkOut,
+    rooms,
+    totalPrice,
+    year: new Date().getFullYear(),
+  };
+
+  sendEmail(to, "Booking Confirmation", "bookingConfirmation", data);
 };
 
 export const createBooking = async (req, res) => {
