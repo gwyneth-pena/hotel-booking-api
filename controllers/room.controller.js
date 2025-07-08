@@ -1,5 +1,6 @@
 import { Hotel } from "../models/hotel.model.js";
 import { Room } from "../models/room.model.js";
+import { deleteSupabaseImages } from "../utls/supabase.js";
 
 export const createRoom = async (req, res) => {
   try {
@@ -53,12 +54,11 @@ export const getRooms = async (req, res) => {
             return d < checkInDate || d >= checkOutDate;
           });
         });
-        
+
         rooms = {
           ...rooms.toObject(),
           roomNumbers: availableRoomNumbers,
         };
-
       }
     } else {
       rooms = await Room.find();
@@ -100,15 +100,9 @@ export const deleteRoom = async (req, res) => {
     const room = await Room.findById(roomId);
     if (!room) return res.status(404).json({ message: "Room not found." });
 
-    await Room.findByIdAndDelete(roomId);
-    await Hotel.findOneAndUpdate(
-      { rooms: roomId },
-      {
-        $pull: {
-          rooms: roomId,
-        },
-      }
-    );
+    await deleteSupabaseImages(room.photos);
+
+    await Room.findByIdAndDelete(req.params.id);
 
     return res.status(200).json({ message: "Room has been deleted." });
   } catch (error) {

@@ -4,10 +4,11 @@ import {
   createBooking,
   getUserBookings,
 } from "../controllers/userBooking.controller.js";
+import { trimRequest } from "../middlewares/trim.middleware.js";
 
 const router = Router();
 
-router.post("/", verifyUser, createBooking);
-router.get("/my-data", verifyUser, getUserBookings);
+router.post("/", trimRequest, verifyUser, createBooking);
+router.get("/my-data", trimRequest, verifyUser, getUserBookings);
 
 export default router;

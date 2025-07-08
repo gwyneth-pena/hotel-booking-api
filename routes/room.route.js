@@ -6,13 +6,14 @@ import {
   getRooms,
   updateRoom,
 } from "../controllers/room.controller.js";
+import { trimRequest } from "../middlewares/trim.middleware.js";
 
 const router = Router();
 
-router.post("/:hotelId", verifyAdmin, createRoom);
-router.get("/", getRooms);
-router.get("/:id", getRooms);
-router.patch("/:id", verifyAdmin, updateRoom);
-router.delete("/:id", verifyAdmin, deleteRoom);
+router.post("/:hotelId",trimRequest ,verifyAdmin, createRoom);
+router.get("/", trimRequest,getRooms);
+router.get("/:id", trimRequest, getRooms);
+router.patch("/:id", trimRequest, verifyAdmin, updateRoom);
+router.delete("/:id", trimRequest, verifyAdmin, deleteRoom);
 
 export default router;

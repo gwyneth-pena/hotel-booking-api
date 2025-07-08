@@ -1,17 +1,24 @@
 import { Hotel } from "../models/hotel.model.js";
+import { Room } from "../models/room.model.js";
 import { generateDateList } from "../utls/dateUtils.js";
+import { deleteSupabaseImages } from "../utls/supabase.js";
 import mongoose from "mongoose";
 
 export const getHotels = async (req, res) => {
   try {
+    const withRoomInfo = req.query.withRoomInfo?.trim();
+
     let hotels = {};
     if (req.params.id) {
-      hotels = await Hotel.findById(req.params.id);
+      if (!withRoomInfo) {
+        hotels = await Hotel.findById(req.params.id);
+      } else {
+        hotels = await Hotel.findById(req.params.id).populate('rooms');
+      }
     } else {
       const valuesQuery = req.query.values;
       const fieldQuery = req.query.field;
       const countOnly = req.query.countOnly?.trim();
-      const withRoomInfo = req.query.withRoomInfo?.trim();
       const minPax = req.query.minPax || 1;
 
       const checkInDate = req.query.checkInDate
@@ -197,7 +204,18 @@ export const updateHotel = async (req, res) => {
 
 export const deleteHotel = async (req, res) => {
   try {
+    const hotel = await Hotel.findById(req.params.id);
+
+    if (Array.isArray(hotel.rooms) && hotel.rooms.length > 0) {
+      await Promise.all(
+        hotel.rooms.map((roomId) => Room.findByIdAndDelete(roomId))
+      );
+    }
+
+    await deleteSupabaseImages(hotel.photos);
+
     await Hotel.findByIdAndDelete(req.params.id);
+
     return res.status(200).json({ message: "Hotel has been deleted." });
   } catch (error) {
     return res.status(404).json({ message: "Hotel not found." });

@@ -151,6 +151,13 @@
         "description": "",
         "parameters": [
           {
+            "name": "withRoomInfo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "values",
             "in": "query",
             "schema": {
@@ -166,13 +173,6 @@
           },
           {
             "name": "countOnly",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "withRoomInfo",
             "in": "query",
             "schema": {
               "type": "string"
@@ -223,6 +223,13 @@
             }
           },
           {
+            "name": "withRoomInfo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "values",
             "in": "query",
             "schema": {
@@ -238,13 +245,6 @@
           },
           {
             "name": "countOnly",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "withRoomInfo",
             "in": "query",
             "schema": {
               "type": "string"
