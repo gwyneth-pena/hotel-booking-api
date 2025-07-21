@@ -99,3 +99,33 @@ export const getUserBookings = async (req, res) => {
     return res.status(404).json({ message: error.message });
   }
 };
+
+export const getBookings = async (req, res) => {
+  try {
+    const hotelId = req.query.hotelId;
+    const fromDate = req.query.fromDate ? new Date(req.query.fromDate) : null;
+    const toDate = req.query.toDate ? new Date(req.query.toDate) : null;
+
+    const params = {};
+
+    if (hotelId || (fromDate && toDate)) {
+      params.bookedRooms = {
+        $elemMatch: {
+          ...(hotelId && { hotel: hotelId }),
+          ...(fromDate &&
+            toDate && { checkInDate: { $gte: fromDate, $lte: toDate } }),
+        },
+      };
+    }
+
+    const bookings = await UserBooking.find(params)
+      .populate("user")
+      .populate("bookedRooms.hotel")
+      .populate("bookedRooms.rooms.room");
+
+    return res.status(200).json(bookings);
+  } catch (error) {
+    return res.status(404).json({ message: error.message });
+  }
+};
+
